@@ -121,27 +121,27 @@ protected static void logIgnoredError(String message, Throwable cause) {
 
 		public void synchronizeContext(){
 			
-			if(inputfile != null){
+			if(inputfile_path != null){
 				
-					this.setProperty("inputfile", inputfile.toString());
+					this.setProperty("inputfile_path", inputfile_path.toString());
 				
 			}
 			
-			if(outptfile != null){
+			if(outputfile_path != null){
 				
-					this.setProperty("outptfile", outptfile.toString());
+					this.setProperty("outputfile_path", outputfile_path.toString());
 				
 			}
 			
 		}
 
-public String inputfile;
-public String getInputfile(){
-	return this.inputfile;
+public String inputfile_path;
+public String getInputfile_path(){
+	return this.inputfile_path;
 }
-public String outptfile;
-public String getOutptfile(){
-	return this.outptfile;
+public String outputfile_path;
+public String getOutputfile_path(){
+	return this.outputfile_path;
 }
 	}
 	protected ContextProperties context = new ContextProperties(); // will be instanciated by MS.
@@ -569,11 +569,11 @@ public void Implicit_Context_RegexProcess(final java.util.Map<String, Object> gl
         
         int footer_Implicit_Context_Regex  = 0;
         boolean removeEmptyRowImplicit_Context_Regex = true;
-        Object source_Implicit_Context_Regex = /** Start field Implicit_Context_Regex:FILENAME */"/home/ec2-user/data/demotalendoutput.txt"/** End field Implicit_Context_Regex:FILENAME */;
+        Object source_Implicit_Context_Regex = /** Start field Implicit_Context_Regex:FILENAME */"C:/Users/17858/Documents/documnets/Context_file_test1.txt"/** End field Implicit_Context_Regex:FILENAME */;
         
         org.talend.fileprocess.TOSDelimitedReader inImplicit_Context_Regex=null;
         if(source_Implicit_Context_Regex instanceof String || source_Implicit_Context_Regex instanceof java.io.InputStream){
-        	inImplicit_Context_Regex = new org.talend.fileprocess.TOSDelimitedReader(/** Start field Implicit_Context_Regex:FILENAME */"/home/ec2-user/data/demotalendoutput.txt"/** End field Implicit_Context_Regex:FILENAME */, "ISO-8859-15", "", "\n", removeEmptyRowImplicit_Context_Regex);
+        	inImplicit_Context_Regex = new org.talend.fileprocess.TOSDelimitedReader(/** Start field Implicit_Context_Regex:FILENAME */"C:/Users/17858/Documents/documnets/Context_file_test1.txt"/** End field Implicit_Context_Regex:FILENAME */, "ISO-8859-15", "", "\n", removeEmptyRowImplicit_Context_Regex);
         }else{
         	throw new java.lang.Exception("The source data should be specified as File Path or InputStream or java.io.Reader!");
         }
@@ -598,10 +598,10 @@ public void Implicit_Context_RegexProcess(final java.util.Map<String, Object> gl
 				lastLineImplicit_Context_Regex = lastLineTempImplicit_Context_Regex;
 			}
 		  	inImplicit_Context_Regex.close();
-        	inImplicit_Context_Regex = new org.talend.fileprocess.TOSDelimitedReader(/** Start field Implicit_Context_Regex:FILENAME */"/home/ec2-user/data/demotalendoutput.txt"/** End field Implicit_Context_Regex:FILENAME */, "ISO-8859-15", "", "\n", removeEmptyRowImplicit_Context_Regex);
+        	inImplicit_Context_Regex = new org.talend.fileprocess.TOSDelimitedReader(/** Start field Implicit_Context_Regex:FILENAME */"C:/Users/17858/Documents/documnets/Context_file_test1.txt"/** End field Implicit_Context_Regex:FILENAME */, "ISO-8859-15", "", "\n", removeEmptyRowImplicit_Context_Regex);
 		}
         java.util.StringTokenizer strTokenImplicit_Context_Regex;
-        java.util.regex.Pattern patternImplicit_Context_Regex = java.util.regex.Pattern.compile("^([^"+";"+"]*)"+";"+"(.*)$");
+        java.util.regex.Pattern patternImplicit_Context_Regex = java.util.regex.Pattern.compile("^([^"+"\\|"+"]*)"+"\\|"+"(.*)$");
         java.util.regex.Matcher matcherImplicit_Context_Regex = null;
         
         
@@ -777,14 +777,14 @@ if(row_Implicit_Context_Regex != null) {
 
   if (tmp_key_Implicit_Context_Context != null){
   try{
-        if(key_Implicit_Context_Context!=null && "inputfile".equals(key_Implicit_Context_Context))
+        if(key_Implicit_Context_Context!=null && "inputfile_path".equals(key_Implicit_Context_Context))
         {
-           context.inputfile=value_Implicit_Context_Context;
+           context.inputfile_path=value_Implicit_Context_Context;
         }
 
-        if(key_Implicit_Context_Context!=null && "outptfile".equals(key_Implicit_Context_Context))
+        if(key_Implicit_Context_Context!=null && "outputfile_path".equals(key_Implicit_Context_Context))
         {
-           context.outptfile=value_Implicit_Context_Context;
+           context.outputfile_path=value_Implicit_Context_Context;
         }
 
 
@@ -947,11 +947,11 @@ end_Hash.put("Implicit_Context_Regex", System.currentTimeMillis());
     }
 	for(Object obj_Implicit_Context_Context :newPropertyList_Implicit_Context_Context){
 		
-		System.err.println("Error: Parameter \"" + obj_Implicit_Context_Context + "\" is a new parameter of Implicit_Context_Context");        
+		System.out.println("Info: Parameter \"" + obj_Implicit_Context_Context + "\" is a new parameter of Implicit_Context_Context");        
 	}
 	for(Object obj_Implicit_Context_Context :noAssignList_Implicit_Context_Context){
 		
-		System.out.println("Warning: Parameter \"" + obj_Implicit_Context_Context + "\" has not been set by Implicit_Context_Context");
+		System.out.println("Info: Parameter \"" + obj_Implicit_Context_Context + "\" has not been set by Implicit_Context_Context");
 		
 	} 
 
@@ -1281,7 +1281,7 @@ public void tFileInputExcel_1Process(final java.util.Map<String, Object> globalM
 		
 
 String fileName_tFileOutputDelimited_1 = "";
-    fileName_tFileOutputDelimited_1 = (new java.io.File(context.outptfile)).getAbsolutePath().replace("\\","/");
+    fileName_tFileOutputDelimited_1 = (new java.io.File(context.outputfile_path)).getAbsolutePath().replace("\\","/");
     String fullName_tFileOutputDelimited_1 = null;
     String extension_tFileOutputDelimited_1 = null;
     String directory_tFileOutputDelimited_1 = null;
@@ -1311,7 +1311,7 @@ String fileName_tFileOutputDelimited_1 = "";
             int splitedFileNo_tFileOutputDelimited_1 = 0;
             int currentRow_tFileOutputDelimited_1 = 0;
 
-            final String OUT_DELIM_tFileOutputDelimited_1 = /** Start field tFileOutputDelimited_1:FIELDSEPARATOR */";"/** End field tFileOutputDelimited_1:FIELDSEPARATOR */;
+            final String OUT_DELIM_tFileOutputDelimited_1 = /** Start field tFileOutputDelimited_1:FIELDSEPARATOR */"|"/** End field tFileOutputDelimited_1:FIELDSEPARATOR */;
 
             final String OUT_DELIM_ROWSEP_tFileOutputDelimited_1 = /** Start field tFileOutputDelimited_1:ROWSEPARATOR */"\n"/** End field tFileOutputDelimited_1:ROWSEPARATOR */;
 
@@ -1376,7 +1376,7 @@ resourceMap.put("nb_line_tFileOutputDelimited_1", nb_line_tFileOutputDelimited_1
 		
 
  
-	final String decryptedPassword_tFileInputExcel_1 = routines.system.PasswordEncryptUtil.decryptPassword("enc:routine.encryption.key.v1:xkxpgqmERmDWaCrXWk56HwxLghWNJXXPqfchyQ==");
+	final String decryptedPassword_tFileInputExcel_1 = routines.system.PasswordEncryptUtil.decryptPassword("enc:routine.encryption.key.v1:mpUuVgnTPPbrb58hdvZrJwcfGcWwujG2LcBfXA==");
         String password_tFileInputExcel_1 = decryptedPassword_tFileInputExcel_1;
         if (password_tFileInputExcel_1.isEmpty()){
             password_tFileInputExcel_1 = null;
@@ -1423,7 +1423,7 @@ resourceMap.put("nb_line_tFileOutputDelimited_1", nb_line_tFileOutputDelimited_1
 			}
 		RegexUtil_tFileInputExcel_1 regexUtil_tFileInputExcel_1 = new RegexUtil_tFileInputExcel_1();
 
-		Object source_tFileInputExcel_1 = context.inputfile;
+		Object source_tFileInputExcel_1 = context.inputfile_path;
 		org.apache.poi.xssf.usermodel.XSSFWorkbook workbook_tFileInputExcel_1 = null;
 
 		if(source_tFileInputExcel_1 instanceof String){
@@ -2115,10 +2115,10 @@ end_Hash.put("tFileOutputDelimited_1", System.currentTimeMillis());
             }
             class ContextProcessing {
                 private void processContext_0() {
-                        context.setContextType("inputfile", "id_String");
-                            context.inputfile=(String) context.getProperty("inputfile");
-                        context.setContextType("outptfile", "id_String");
-                            context.outptfile=(String) context.getProperty("outptfile");
+                        context.setContextType("inputfile_path", "id_String");
+                            context.inputfile_path=(String) context.getProperty("inputfile_path");
+                        context.setContextType("outputfile_path", "id_String");
+                            context.outputfile_path=(String) context.getProperty("outputfile_path");
                 } 
                 public void processAllContext() {
                         processContext_0();
@@ -2132,10 +2132,10 @@ end_Hash.put("tFileOutputDelimited_1", System.currentTimeMillis());
         }
 
         // get context value from parent directly
-        if (parentContextMap != null && !parentContextMap.isEmpty()) {if (parentContextMap.containsKey("inputfile")) {
-                context.inputfile = (String) parentContextMap.get("inputfile");
-            }if (parentContextMap.containsKey("outptfile")) {
-                context.outptfile = (String) parentContextMap.get("outptfile");
+        if (parentContextMap != null && !parentContextMap.isEmpty()) {if (parentContextMap.containsKey("inputfile_path")) {
+                context.inputfile_path = (String) parentContextMap.get("inputfile_path");
+            }if (parentContextMap.containsKey("outputfile_path")) {
+                context.outputfile_path = (String) parentContextMap.get("outputfile_path");
             }
         }
 
@@ -2374,6 +2374,6 @@ if (execStat) {
     ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- *     72347 characters generated by Talend Open Studio for Data Integration 
- *     on the March 8, 2021 12:30:50 AM CST
+ *     72563 characters generated by Talend Open Studio for Data Integration 
+ *     on the March 8, 2021 12:57:52 AM CST
  ************************************************************************************************/
