@@ -282,6 +282,21 @@ private class TalendException extends Exception {
 	}
 }
 
+			public void Implicit_Context_Regex_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+							Implicit_Context_Context_error(exception, errorComponent, globalMap);
+						
+						}
+					
+			public void Implicit_Context_Context_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					Implicit_Context_Regex_onSubJobError(exception, errorComponent, globalMap);
+			}
+			
 			public void tFileInputExcel_1_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 				
 				end_Hash.put(errorComponent, System.currentTimeMillis());
@@ -300,6 +315,11 @@ private class TalendException extends Exception {
 					tFileInputExcel_1_onSubJobError(exception, errorComponent, globalMap);
 			}
 			
+			public void Implicit_Context_Regex_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+
+resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
+
+			}
 			public void tFileInputExcel_1_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 
 resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
@@ -310,6 +330,748 @@ resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThrea
 
 
 
+
+
+public static class row_Implicit_Context_RegexStruct implements routines.system.IPersistableRow<row_Implicit_Context_RegexStruct> {
+    final static byte[] commonByteArrayLock_LOCAL_PROJECT_demotalend_job = new byte[0];
+    static byte[] commonByteArray_LOCAL_PROJECT_demotalend_job = new byte[0];
+
+	
+			    public String key;
+
+				public String getKey () {
+					return this.key;
+				}
+				
+			    public String value;
+
+				public String getValue () {
+					return this.value;
+				}
+				
+
+
+
+	private String readString(ObjectInputStream dis) throws IOException{
+		String strReturn = null;
+		int length = 0;
+        length = dis.readInt();
+		if (length == -1) {
+			strReturn = null;
+		} else {
+			if(length > commonByteArray_LOCAL_PROJECT_demotalend_job.length) {
+				if(length < 1024 && commonByteArray_LOCAL_PROJECT_demotalend_job.length == 0) {
+   					commonByteArray_LOCAL_PROJECT_demotalend_job = new byte[1024];
+				} else {
+   					commonByteArray_LOCAL_PROJECT_demotalend_job = new byte[2 * length];
+   				}
+			}
+			dis.readFully(commonByteArray_LOCAL_PROJECT_demotalend_job, 0, length);
+			strReturn = new String(commonByteArray_LOCAL_PROJECT_demotalend_job, 0, length, utf8Charset);
+		}
+		return strReturn;
+	}
+
+    private void writeString(String str, ObjectOutputStream dos) throws IOException{
+		if(str == null) {
+            dos.writeInt(-1);
+		} else {
+            byte[] byteArray = str.getBytes(utf8Charset);
+	    	dos.writeInt(byteArray.length);
+			dos.write(byteArray);
+    	}
+    }
+
+    public void readData(ObjectInputStream dis) {
+
+		synchronized(commonByteArrayLock_LOCAL_PROJECT_demotalend_job) {
+
+        	try {
+
+        		int length = 0;
+		
+					this.key = readString(dis);
+					
+					this.value = readString(dis);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+
+		
+
+        }
+
+		
+
+      }
+
+
+    }
+
+    public void writeData(ObjectOutputStream dos) {
+        try {
+
+		
+					// String
+				
+						writeString(this.key,dos);
+					
+					// String
+				
+						writeString(this.value,dos);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+        }
+
+
+    }
+
+
+    public String toString() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(super.toString());
+		sb.append("[");
+		sb.append("key="+key);
+		sb.append(",value="+value);
+	    sb.append("]");
+
+	    return sb.toString();
+    }
+
+    /**
+     * Compare keys
+     */
+    public int compareTo(row_Implicit_Context_RegexStruct other) {
+
+		int returnValue = -1;
+		
+	    return returnValue;
+    }
+
+
+    private int checkNullsAndCompare(Object object1, Object object2) {
+        int returnValue = 0;
+		if (object1 instanceof Comparable && object2 instanceof Comparable) {
+            returnValue = ((Comparable) object1).compareTo(object2);
+        } else if (object1 != null && object2 != null) {
+            returnValue = compareStrings(object1.toString(), object2.toString());
+        } else if (object1 == null && object2 != null) {
+            returnValue = 1;
+        } else if (object1 != null && object2 == null) {
+            returnValue = -1;
+        } else {
+            returnValue = 0;
+        }
+
+        return returnValue;
+    }
+
+    private int compareStrings(String string1, String string2) {
+        return string1.compareTo(string2);
+    }
+
+
+}
+public void Implicit_Context_RegexProcess(final java.util.Map<String, Object> globalMap) throws TalendException {
+	globalMap.put("Implicit_Context_Regex_SUBPROCESS_STATE", 0);
+
+ final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
+	
+		String iterateId = "";
+	
+	
+	String currentComponent = "";
+	java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+	try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception().getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { //start the resume
+				globalResumeTicket = true;
+
+
+
+		row_Implicit_Context_RegexStruct row_Implicit_Context_Regex = new row_Implicit_Context_RegexStruct();
+
+
+
+
+	
+	/**
+	 * [Implicit_Context_Context begin ] start
+	 */
+
+	
+
+	
+		
+		ok_Hash.put("Implicit_Context_Context", false);
+		start_Hash.put("Implicit_Context_Context", System.currentTimeMillis());
+		
+	
+		currentVirtualComponent = "Implicit_Context_Context";
+	
+	currentComponent="Implicit_Context_Context";
+
+	
+					if(execStat) {
+						runStat.updateStatOnConnection(resourceMap,iterateId,0,0,"Main");
+					}
+				
+		int tos_count_Implicit_Context_Context = 0;
+		
+	java.util.List<String> assignList_Implicit_Context_Context = new java.util.ArrayList<String>();
+	java.util.List<String> newPropertyList_Implicit_Context_Context = new java.util.ArrayList<String>();
+	java.util.List<String> noAssignList_Implicit_Context_Context = new java.util.ArrayList<String>();
+	int nb_line_Implicit_Context_Context = 0;
+
+ 
+
+
+
+/**
+ * [Implicit_Context_Context begin ] stop
+ */
+
+
+
+	
+	/**
+	 * [Implicit_Context_Regex begin ] start
+	 */
+
+	
+
+	
+		
+		ok_Hash.put("Implicit_Context_Regex", false);
+		start_Hash.put("Implicit_Context_Regex", System.currentTimeMillis());
+		
+	
+		currentVirtualComponent = "Implicit_Context_Regex";
+	
+	currentComponent="Implicit_Context_Regex";
+
+	
+		int tos_count_Implicit_Context_Regex = 0;
+		
+
+	
+	
+		int nb_line_Implicit_Context_Regex = 0;
+        
+        int footer_Implicit_Context_Regex  = 0;
+        boolean removeEmptyRowImplicit_Context_Regex = true;
+        Object source_Implicit_Context_Regex = /** Start field Implicit_Context_Regex:FILENAME */"/home/ec2-user/data/demotalendoutput.txt"/** End field Implicit_Context_Regex:FILENAME */;
+        
+        org.talend.fileprocess.TOSDelimitedReader inImplicit_Context_Regex=null;
+        if(source_Implicit_Context_Regex instanceof String || source_Implicit_Context_Regex instanceof java.io.InputStream){
+        	inImplicit_Context_Regex = new org.talend.fileprocess.TOSDelimitedReader(/** Start field Implicit_Context_Regex:FILENAME */"/home/ec2-user/data/demotalendoutput.txt"/** End field Implicit_Context_Regex:FILENAME */, "ISO-8859-15", "", "\n", removeEmptyRowImplicit_Context_Regex);
+        }else{
+        	throw new java.lang.Exception("The source data should be specified as File Path or InputStream or java.io.Reader!");
+        }
+        String strImplicit_Context_Regex;
+        int totalLineImplicit_Context_Regex=0,currentLineImplicit_Context_Regex=0,beginLineImplicit_Context_Regex=0,lastLineImplicit_Context_Regex=-1,validRowCountImplicit_Context_Regex=0;
+        int limitImplicit_Context_Regex=-1;
+        
+		int headerImplicit_Context_Regex = 0;
+		if(headerImplicit_Context_Regex > 0){
+			beginLineImplicit_Context_Regex=headerImplicit_Context_Regex+1;
+		}
+    	
+        if(footer_Implicit_Context_Regex > 0){
+			while (inImplicit_Context_Regex.readRecord()) {
+                strImplicit_Context_Regex =inImplicit_Context_Regex.getRowRecord();        
+				totalLineImplicit_Context_Regex++;
+			}
+			int lastLineTempImplicit_Context_Regex = totalLineImplicit_Context_Regex - footer_Implicit_Context_Regex   < 0? 0 : totalLineImplicit_Context_Regex - footer_Implicit_Context_Regex ;
+			if(lastLineImplicit_Context_Regex > 0){
+				lastLineImplicit_Context_Regex = lastLineImplicit_Context_Regex < lastLineTempImplicit_Context_Regex ? lastLineImplicit_Context_Regex : lastLineTempImplicit_Context_Regex; 
+			}else {
+				lastLineImplicit_Context_Regex = lastLineTempImplicit_Context_Regex;
+			}
+		  	inImplicit_Context_Regex.close();
+        	inImplicit_Context_Regex = new org.talend.fileprocess.TOSDelimitedReader(/** Start field Implicit_Context_Regex:FILENAME */"/home/ec2-user/data/demotalendoutput.txt"/** End field Implicit_Context_Regex:FILENAME */, "ISO-8859-15", "", "\n", removeEmptyRowImplicit_Context_Regex);
+		}
+        java.util.StringTokenizer strTokenImplicit_Context_Regex;
+        java.util.regex.Pattern patternImplicit_Context_Regex = java.util.regex.Pattern.compile("^([^"+";"+"]*)"+";"+"(.*)$");
+        java.util.regex.Matcher matcherImplicit_Context_Regex = null;
+        
+        
+        while (inImplicit_Context_Regex.readRecord()) {
+            strImplicit_Context_Regex =inImplicit_Context_Regex.getRowRecord(); 
+        	
+       		currentLineImplicit_Context_Regex++;
+        	if(currentLineImplicit_Context_Regex < beginLineImplicit_Context_Regex) {
+        		continue;
+        	}
+        	if(lastLineImplicit_Context_Regex > -1 && currentLineImplicit_Context_Regex > lastLineImplicit_Context_Regex) {
+        		break;
+        	}
+        	if(removeEmptyRowImplicit_Context_Regex && ("").equals(strImplicit_Context_Regex)){
+        		continue;
+        	}
+        	if(limitImplicit_Context_Regex!=-1&& validRowCountImplicit_Context_Regex >= limitImplicit_Context_Regex){
+        		break;
+        	}
+        	
+        	matcherImplicit_Context_Regex = patternImplicit_Context_Regex.matcher(strImplicit_Context_Regex);
+        	int groupCountImplicit_Context_Regex = 0;
+        	boolean isMatchImplicit_Context_Regex = matcherImplicit_Context_Regex.find(); 
+        	if(isMatchImplicit_Context_Regex){
+        	groupCountImplicit_Context_Regex=matcherImplicit_Context_Regex.groupCount();
+			}
+    		row_Implicit_Context_Regex = null;						
+			
+			boolean lineIsEmptyImplicit_Context_Regex = strImplicit_Context_Regex.length() == 0;
+			
+			String[] valueImplicit_Context_Regex = new String[2];
+			String frontCharImplicit_Context_Regex,behindCharImplicit_Context_Regex;
+			for(int i=0;i<2;i++){
+				valueImplicit_Context_Regex[i] = "";
+				if(lineIsEmptyImplicit_Context_Regex){
+					continue;
+				}
+				if(i < groupCountImplicit_Context_Regex){
+					valueImplicit_Context_Regex[i] = matcherImplicit_Context_Regex.group(i+1);
+				}
+			}
+			validRowCountImplicit_Context_Regex++;
+			
+			boolean whetherReject_Implicit_Context_Regex = false;
+			row_Implicit_Context_Regex = new row_Implicit_Context_RegexStruct();
+			try {			
+			if(!isMatchImplicit_Context_Regex){//line data not matched with given regex parameter
+        		throw new java.lang.Exception("Line doesn't match: " + strImplicit_Context_Regex);
+        	}
+								
+						if(valueImplicit_Context_Regex[0]!=null && valueImplicit_Context_Regex[0].length() > 0) {
+							row_Implicit_Context_Regex.key = valueImplicit_Context_Regex[0];					
+						} else {
+						row_Implicit_Context_Regex.key = "";}
+						
+						if(valueImplicit_Context_Regex[1]!=null && valueImplicit_Context_Regex[1].length() > 0) {
+							row_Implicit_Context_Regex.value = valueImplicit_Context_Regex[1];					
+						} else {
+						row_Implicit_Context_Regex.value = "";}
+	
+										
+					
+    } catch (java.lang.Exception e) {
+        whetherReject_Implicit_Context_Regex = true;
+                    	if(isMatchImplicit_Context_Regex){
+                    		System.err.println(e.getMessage());
+                    	}
+                row_Implicit_Context_Regex = null;
+    }					
+					
+					
+			
+			nb_line_Implicit_Context_Regex++;
+
+ 
+
+
+
+/**
+ * [Implicit_Context_Regex begin ] stop
+ */
+	
+	/**
+	 * [Implicit_Context_Regex main ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "Implicit_Context_Regex";
+	
+	currentComponent="Implicit_Context_Regex";
+
+	
+
+ 
+
+
+	tos_count_Implicit_Context_Regex++;
+
+/**
+ * [Implicit_Context_Regex main ] stop
+ */
+	
+	/**
+	 * [Implicit_Context_Regex process_data_begin ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "Implicit_Context_Regex";
+	
+	currentComponent="Implicit_Context_Regex";
+
+	
+
+ 
+
+
+
+/**
+ * [Implicit_Context_Regex process_data_begin ] stop
+ */
+// Start of branch "row_Implicit_Context_Regex"
+if(row_Implicit_Context_Regex != null) { 
+
+
+
+	
+	/**
+	 * [Implicit_Context_Context main ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "Implicit_Context_Context";
+	
+	currentComponent="Implicit_Context_Context";
+
+	
+					if(execStat){
+						runStat.updateStatOnConnection(iterateId,1,1,"Main");
+					}
+					
+        //////////////////////////
+        String tmp_key_Implicit_Context_Context = null;
+                    String key_Implicit_Context_Context = null;
+                      if (row_Implicit_Context_Regex.key != null){
+                          tmp_key_Implicit_Context_Context = row_Implicit_Context_Regex.key.trim();
+                        if ((tmp_key_Implicit_Context_Context.startsWith("#") || tmp_key_Implicit_Context_Context.startsWith("!") )){
+                          tmp_key_Implicit_Context_Context = null;
+                        } else {
+                          row_Implicit_Context_Regex.key = tmp_key_Implicit_Context_Context;
+                        }
+                      }
+                        if(row_Implicit_Context_Regex.key != null) {
+                    key_Implicit_Context_Context =
+                        row_Implicit_Context_Regex.key;
+                        }
+                    String value_Implicit_Context_Context = null;
+                        if(row_Implicit_Context_Regex.value != null) {
+                    value_Implicit_Context_Context =
+                        row_Implicit_Context_Regex.value;
+                        }
+				
+				String currentValue_Implicit_Context_Context = value_Implicit_Context_Context;
+				
+
+  if (tmp_key_Implicit_Context_Context != null){
+  try{
+        if(key_Implicit_Context_Context!=null && "inputfile".equals(key_Implicit_Context_Context))
+        {
+           context.inputfile=value_Implicit_Context_Context;
+        }
+
+        if(key_Implicit_Context_Context!=null && "outptfile".equals(key_Implicit_Context_Context))
+        {
+           context.outptfile=value_Implicit_Context_Context;
+        }
+
+
+        if (context.getProperty(key_Implicit_Context_Context)!=null)
+        {
+            assignList_Implicit_Context_Context.add(key_Implicit_Context_Context);
+        }else  {
+            newPropertyList_Implicit_Context_Context.add(key_Implicit_Context_Context);
+        }
+        if(value_Implicit_Context_Context == null){
+            context.setProperty(key_Implicit_Context_Context, "");
+        }else{
+            context.setProperty(key_Implicit_Context_Context,value_Implicit_Context_Context);
+        }
+    }catch(java.lang.Exception e){
+        System.err.println("Setting a value for the key \"" + key_Implicit_Context_Context + "\" has failed. Error message: " + e.getMessage());
+    }
+        nb_line_Implicit_Context_Context++;
+    }
+        //////////////////////////
+
+ 
+
+
+	tos_count_Implicit_Context_Context++;
+
+/**
+ * [Implicit_Context_Context main ] stop
+ */
+	
+	/**
+	 * [Implicit_Context_Context process_data_begin ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "Implicit_Context_Context";
+	
+	currentComponent="Implicit_Context_Context";
+
+	
+
+ 
+
+
+
+/**
+ * [Implicit_Context_Context process_data_begin ] stop
+ */
+	
+	/**
+	 * [Implicit_Context_Context process_data_end ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "Implicit_Context_Context";
+	
+	currentComponent="Implicit_Context_Context";
+
+	
+
+ 
+
+
+
+/**
+ * [Implicit_Context_Context process_data_end ] stop
+ */
+
+} // End of branch "row_Implicit_Context_Regex"
+
+
+
+
+	
+	/**
+	 * [Implicit_Context_Regex process_data_end ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "Implicit_Context_Regex";
+	
+	currentComponent="Implicit_Context_Regex";
+
+	
+
+ 
+
+
+
+/**
+ * [Implicit_Context_Regex process_data_end ] stop
+ */
+	
+	/**
+	 * [Implicit_Context_Regex end ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "Implicit_Context_Regex";
+	
+	currentComponent="Implicit_Context_Regex";
+
+	
+
+	
+	
+    		}
+			if(!(source_Implicit_Context_Regex instanceof java.io.InputStream)){
+            	inImplicit_Context_Regex.close();
+            }
+            inImplicit_Context_Regex = null;
+            globalMap.put("Implicit_Context_Regex_NB_LINE",nb_line_Implicit_Context_Regex);      
+ 
+
+ok_Hash.put("Implicit_Context_Regex", true);
+end_Hash.put("Implicit_Context_Regex", System.currentTimeMillis());
+
+
+
+
+/**
+ * [Implicit_Context_Regex end ] stop
+ */
+
+	
+	/**
+	 * [Implicit_Context_Context end ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "Implicit_Context_Context";
+	
+	currentComponent="Implicit_Context_Context";
+
+	
+	
+	java.util.Enumeration<?> enu_Implicit_Context_Context = context.propertyNames();
+    while(enu_Implicit_Context_Context.hasMoreElements())
+    {           
+    	String key_Implicit_Context_Context = (String)enu_Implicit_Context_Context.nextElement();
+        if(!assignList_Implicit_Context_Context.contains(key_Implicit_Context_Context) && !newPropertyList_Implicit_Context_Context.contains(key_Implicit_Context_Context))
+        {
+            noAssignList_Implicit_Context_Context.add(key_Implicit_Context_Context);
+        }          
+    }
+	for(Object obj_Implicit_Context_Context :newPropertyList_Implicit_Context_Context){
+		
+		System.err.println("Error: Parameter \"" + obj_Implicit_Context_Context + "\" is a new parameter of Implicit_Context_Context");        
+	}
+	for(Object obj_Implicit_Context_Context :noAssignList_Implicit_Context_Context){
+		
+		System.out.println("Warning: Parameter \"" + obj_Implicit_Context_Context + "\" has not been set by Implicit_Context_Context");
+		
+	} 
+
+    String newPropertyStr_Implicit_Context_Context = newPropertyList_Implicit_Context_Context.toString();
+    String newProperty_Implicit_Context_Context = newPropertyStr_Implicit_Context_Context.substring(1, newPropertyStr_Implicit_Context_Context.length() - 1);
+    
+    String noAssignStr_Implicit_Context_Context = noAssignList_Implicit_Context_Context.toString();
+    String noAssign_Implicit_Context_Context = noAssignStr_Implicit_Context_Context.substring(1, noAssignStr_Implicit_Context_Context.length() - 1);
+    
+    globalMap.put("Implicit_Context_Context_KEY_NOT_INCONTEXT", newProperty_Implicit_Context_Context);
+    globalMap.put("Implicit_Context_Context_KEY_NOT_LOADED", noAssign_Implicit_Context_Context);
+
+    globalMap.put("Implicit_Context_Context_NB_LINE",nb_line_Implicit_Context_Context);
+
+	List<String> parametersToEncrypt_Implicit_Context_Context = new java.util.ArrayList<String>();
+	
+	
+	resumeUtil.addLog("NODE", "NODE:Implicit_Context_Context", "", Thread.currentThread().getId() + "", "","","","",resumeUtil.convertToJsonText(context,parametersToEncrypt_Implicit_Context_Context));    
+    
+				if(execStat){
+			  		runStat.updateStat(resourceMap,iterateId,2,0,"Main");
+			  	}
+			  	
+ 
+
+ok_Hash.put("Implicit_Context_Context", true);
+end_Hash.put("Implicit_Context_Context", System.currentTimeMillis());
+
+
+
+
+/**
+ * [Implicit_Context_Context end ] stop
+ */
+
+
+
+				}//end the resume
+
+				
+
+
+
+	
+			}catch(java.lang.Exception e){	
+				
+				TalendException te = new TalendException(e, currentComponent, globalMap);
+				
+					te.setVirtualComponentName(currentVirtualComponent);
+				
+				throw te;
+			}catch(java.lang.Error error){	
+				
+					runStat.stopThreadStat();
+				
+				throw error;
+			}finally{
+				
+				try{
+					
+	
+	/**
+	 * [Implicit_Context_Regex finally ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "Implicit_Context_Regex";
+	
+	currentComponent="Implicit_Context_Regex";
+
+	
+
+ 
+
+
+
+/**
+ * [Implicit_Context_Regex finally ] stop
+ */
+
+	
+	/**
+	 * [Implicit_Context_Context finally ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "Implicit_Context_Context";
+	
+	currentComponent="Implicit_Context_Context";
+
+	
+
+ 
+
+
+
+/**
+ * [Implicit_Context_Context finally ] stop
+ */
+
+
+
+				}catch(java.lang.Exception e){	
+					//ignore
+				}catch(java.lang.Error error){
+					//ignore
+				}
+				resourceMap = null;
+			}
+		
+
+		globalMap.put("Implicit_Context_Regex_SUBPROCESS_STATE", 1);
+	}
+	
 
 
 public static class row1Struct implements routines.system.IPersistableRow<row1Struct> {
@@ -327,6 +1089,12 @@ public static class row1Struct implements routines.system.IPersistableRow<row1St
 
 				public String getName () {
 					return this.name;
+				}
+				
+			    public String name2;
+
+				public String getName2 () {
+					return this.name2;
 				}
 				
 
@@ -374,6 +1142,8 @@ public static class row1Struct implements routines.system.IPersistableRow<row1St
 					
 					this.name = readString(dis);
 					
+					this.name2 = readString(dis);
+					
         	} catch (IOException e) {
 	            throw new RuntimeException(e);
 
@@ -400,6 +1170,10 @@ public static class row1Struct implements routines.system.IPersistableRow<row1St
 				
 						writeString(this.name,dos);
 					
+					// String
+				
+						writeString(this.name2,dos);
+					
         	} catch (IOException e) {
 	            throw new RuntimeException(e);
         }
@@ -415,6 +1189,7 @@ public static class row1Struct implements routines.system.IPersistableRow<row1St
 		sb.append("[");
 		sb.append("id="+id);
 		sb.append(",name="+name);
+		sb.append(",name2="+name2);
 	    sb.append("]");
 
 	    return sb.toString();
@@ -532,11 +1307,6 @@ String fileName_tFileOutputDelimited_1 = "";
     boolean isFileGenerated_tFileOutputDelimited_1 = true;
     java.io.File filetFileOutputDelimited_1 = new java.io.File(fileName_tFileOutputDelimited_1);
     globalMap.put("tFileOutputDelimited_1_FILE_NAME",fileName_tFileOutputDelimited_1);
-    if(filetFileOutputDelimited_1.exists()){
-            throw new RuntimeException("The particular file \""+filetFileOutputDelimited_1.getAbsoluteFile() +
-            "\" already exist. If you want to overwrite the file, please uncheck the" + 
-            " \"Throw an error if the file already exist\" option in Advanced settings.");
-        }
             int nb_line_tFileOutputDelimited_1 = 0;
             int splitedFileNo_tFileOutputDelimited_1 = 0;
             int currentRow_tFileOutputDelimited_1 = 0;
@@ -566,6 +1336,8 @@ String fileName_tFileOutputDelimited_1 = "";
                                         outtFileOutputDelimited_1.write("id");
                                             outtFileOutputDelimited_1.write(OUT_DELIM_tFileOutputDelimited_1);
                                         outtFileOutputDelimited_1.write("name");
+                                            outtFileOutputDelimited_1.write(OUT_DELIM_tFileOutputDelimited_1);
+                                        outtFileOutputDelimited_1.write("name2");
                                         outtFileOutputDelimited_1.write(OUT_DELIM_ROWSEP_tFileOutputDelimited_1);
                                         outtFileOutputDelimited_1.flush();
                                     }
@@ -604,7 +1376,7 @@ resourceMap.put("nb_line_tFileOutputDelimited_1", nb_line_tFileOutputDelimited_1
 		
 
  
-	final String decryptedPassword_tFileInputExcel_1 = routines.system.PasswordEncryptUtil.decryptPassword("enc:routine.encryption.key.v1:+tySSb9+DceaS4o2HPQUOzvDaHFtCZXVnziMnA==");
+	final String decryptedPassword_tFileInputExcel_1 = routines.system.PasswordEncryptUtil.decryptPassword("enc:routine.encryption.key.v1:xkxpgqmERmDWaCrXWk56HwxLghWNJXXPqfchyQ==");
         String password_tFileInputExcel_1 = decryptedPassword_tFileInputExcel_1;
         if (password_tFileInputExcel_1.isEmpty()){
             password_tFileInputExcel_1 = null;
@@ -723,7 +1495,7 @@ resourceMap.put("nb_line_tFileOutputDelimited_1", nb_line_tFileOutputDelimited_1
                 row_tFileInputExcel_1 = sheet_tFileInputExcel_1.getRow(i_tFileInputExcel_1 - rowCount_tFileInputExcel_1);
             }
 		    row1 = null;
-					int tempRowLength_tFileInputExcel_1 = 2;
+					int tempRowLength_tFileInputExcel_1 = 3;
 				
 				int columnIndex_tFileInputExcel_1 = 0;
 			
@@ -817,6 +1589,17 @@ resourceMap.put("nb_line_tFileOutputDelimited_1", nb_line_tFileOutputDelimited_1
 				row1.name = temp_row_tFileInputExcel_1[columnIndex_tFileInputExcel_1];
 			}else{
 				row1.name = null;
+				emptyColumnCount_tFileInputExcel_1++;
+			}
+							columnIndex_tFileInputExcel_1 = 2;
+						
+			if( temp_row_tFileInputExcel_1[columnIndex_tFileInputExcel_1].length() > 0) {
+				curColNum_tFileInputExcel_1=columnIndex_tFileInputExcel_1 + start_column_tFileInputExcel_1 + 1;
+				curColName_tFileInputExcel_1 = "name2";
+
+				row1.name2 = temp_row_tFileInputExcel_1[columnIndex_tFileInputExcel_1];
+			}else{
+				row1.name2 = null;
 				emptyColumnCount_tFileInputExcel_1++;
 			}
 
@@ -914,6 +1697,12 @@ if(row1 != null) {
                             if(row1.name != null) {
                         sb_tFileOutputDelimited_1.append(
                             row1.name
+                        );
+                            }
+                            sb_tFileOutputDelimited_1.append(OUT_DELIM_tFileOutputDelimited_1);
+                            if(row1.name2 != null) {
+                        sb_tFileOutputDelimited_1.append(
+                            row1.name2
                         );
                             }
                     sb_tFileOutputDelimited_1.append(OUT_DELIM_ROWSEP_tFileOutputDelimited_1);
@@ -1385,6 +2174,15 @@ if(execStat) {
 
 
 
+try {
+errorCode = null;Implicit_Context_RegexProcess(globalMap);
+if(!"failure".equals(status)) { status = "end"; }
+}catch (TalendException e_Implicit_Context_Regex) {
+globalMap.put("Implicit_Context_Regex_SUBPROCESS_STATE", -1);
+
+e_Implicit_Context_Regex.printStackTrace();
+
+}
 
 this.globalResumeTicket = true;//to run tPreJob
 
@@ -1576,6 +2374,6 @@ if (execStat) {
     ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- *     49919 characters generated by Talend Open Studio for Data Integration 
- *     on the March 7, 2021 11:37:22 PM CST
+ *     72347 characters generated by Talend Open Studio for Data Integration 
+ *     on the March 8, 2021 12:30:50 AM CST
  ************************************************************************************************/
